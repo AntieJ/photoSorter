@@ -1,0 +1,105 @@
+body {
+    overflow: hidden;
+    background-color: black;
+    
+}
+
+.padTop{
+padding-top: 15px;
+}
+
+.parent{
+    overflow: hidden;
+    max-width: 100%;
+    
+    text-align: center;
+}
+
+#animate {
+  width: 100%;
+  -webkit-transition: left 0.5s ease;
+  -moz-transition: left 0.5s ease;
+  -o-transition: left 0.5s ease;
+  -ms-transition: left 0.5s ease;
+  transition: left 0.5s ease;
+  position: absolute;
+  left: 0;  
+}
+
+#animate.left {
+  left: -1000px;
+}
+
+#animate.right {
+  left: 1000px;
+}
+
+.image{
+    max-width: 70%;
+    max-height: 100%;
+    margin: auto;
+   display: block;
+   border:10px solid white;
+}
+
+.noBorder{
+   border:0px solid white;
+}
+
+#photoName{
+    text-align: center;
+    color: white;
+    top:0;
+    background-color: black;
+    font-size: 20px;
+    
+}
+
+#goodTitle{
+    color: white;
+}
+
+#badTitle{
+    color: white;
+}
+
+#itemCount{
+    color: blue;
+}
+
+#itemsRemaining{
+    color: lightblue;
+}
+
+#goodCount{
+    color: green;
+    
+}
+
+#badCount{
+    color: red;    
+}
+
+#floatRight{
+    float: right;
+}
+
+#mediumTitle{
+    font-size: 15px;
+}
+
+#dirName:hover{
+    cursor: pointer
+}
+
+#drag-file {
+        background-color: white;
+        color:white;
+        text-align: center;
+        opacity: 0.0;
+        width:100%;
+        height:100%;
+        position: absolute;
+        z-index: 50;
+        pointer-events: none;
+    }

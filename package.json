@@ -1,0 +1,18 @@
+{
+  "name": "photoSorter",
+  "version": "1.0.0",
+  "description": "A photo sorting app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "",
+  "keywords": [
+    "photo",
+    "sort"
+  ],
+  "author": "Anton Jidkov",
+  "devDependencies": {
+    "electron": "~1.6.2"
+  }
+}

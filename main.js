@@ -1,6 +1,7 @@
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
+const Menu = electron.Menu
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
@@ -10,6 +11,29 @@ const url = require('url')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+
+
+// const template = [
+//   {
+//     label: 'Edit',
+//     submenu: [
+//       {role: 'undo'},
+//       {label: 'reset'},
+//     ]
+//   },
+//   {
+//     role: 'help',
+//     submenu: [
+//       {
+//         label: 'Learn More',
+//         click () { require('electron').shell.openExternal('https://electron.atom.io') }
+//       }
+//     ]
+//   }
+// ]
+
+// const menu = Menu.buildFromTemplate(template)
+// Menu.setApplicationMenu(menu)
 
 function createWindow () {
   // Create the browser window.

@@ -1,18 +1,17 @@
 /*
 todo:
 settings for: filetypes, background colors
-allow rename?
 load scripts from local rather than cdn
 settings
 theme?
 icon
 down for maybe?
-'reset' button that moves all images from good and bad back to the root?
 */
 
 var fs = require('fs');
 var path = require('path');
-const { dialog } = require('electron').remote;
+var remote = require('electron').remote;
+const { dialog, Menu, MenuItem } = remote;
 var imageFiles = [];
 var keysEnabled = true;
 var basePath = "";
@@ -33,8 +32,7 @@ $(document).ready(function () {
                 if ($.inArray(path.extname(file), fileExtensions) > -1) {
                     imageFiles.push(file);
                 }
-            }
-            );
+            });
             updateTotalCount();
 
             goodCounter = 0;
@@ -111,8 +109,7 @@ $(document).ready(function () {
             });
         }
         else {
-            callback()
-
+            callback();
         }
 
     }
@@ -121,9 +118,7 @@ $(document).ready(function () {
         keysEnabled = false;
         moveImageLeft();
         rename((basePath + currentImg), (basePath + $('#photoName').val()), () => {
-
-
-            invokeMoveToFolder('bad/');
+            invokeMoveToFolder(badDirName + '/');
         });
 
     }
@@ -133,8 +128,7 @@ $(document).ready(function () {
         moveImageRight();
 
         rename((basePath + currentImg), (basePath + $('#photoName').val()), () => {
-
-            invokeMoveToFolder('good/');
+            invokeMoveToFolder(goodDirName + '/');
         });
 
     }
@@ -243,6 +237,7 @@ $(document).ready(function () {
         });
 
         setupDragAndDrop();
+        configureMenu();
     }
 
     function loadDirectory(directory) {
@@ -314,7 +309,45 @@ $(document).ready(function () {
         }
     }
 
+    function resetDirectories() {
+        //move everything from good + bad back to base path
 
+        if (fs.existsSync(basePath + goodDirName)) {
+            fs.readdir(basePath + goodDirName, (err, files) => {
+                files.forEach(file => {
+                    fs.rename(basePath + goodDirName + '/' + file, basePath + '/' + file, function (err) {
+                        if (err) console.log('ERROR: ' + err);
+                    });
+                });
+                loadDirectory(basePath);
+
+            });
+        }
+
+        if (fs.existsSync(basePath + badDirName)) {
+            fs.readdir(basePath + badDirName, (err, files) => {
+                files.forEach(file => {
+                    fs.rename(basePath + badDirName + '/' + file, basePath + '/' + file, function (err) {
+                        if (err) console.log('ERROR: ' + err);
+                    });
+                });
+                loadDirectory(basePath);
+
+            });
+        }
+
+    }
+
+    function configureMenu() {
+
+        const menu = new Menu()
+        menu.append(new MenuItem({ label: 'Reset', click() { resetDirectories() } }))
+
+        window.addEventListener('contextmenu', (e) => {
+            e.preventDefault()
+            menu.popup(remote.getCurrentWindow())
+        }, false)
+    }
 
     init();
 });

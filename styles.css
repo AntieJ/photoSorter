@@ -52,7 +52,12 @@ padding-top: 15px;
     top:0;
     background-color: black;
     font-size: 20px;
+    border: 0;
     
+}
+
+#photoName:focus{
+    outline: none;
 }
 
 #goodTitle{

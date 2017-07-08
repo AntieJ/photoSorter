@@ -1,13 +1,18 @@
-//todo:
-//settings for: filetypes, background colors
-//allow rename?
-//load scripts from local rather than cdn
+/*
+todo:
+settings for: filetypes, background colors
+allow rename?
+load scripts from local rather than cdn
+settings
+theme?
+icon
+down for maybe?
+'reset' button that moves all images from good and bad back to the root?
+*/
 
 var fs = require('fs');
 var path = require('path');
-const { dialog } = require('electron').remote
-
-
+const { dialog } = require('electron').remote;
 var imageFiles = [];
 var keysEnabled = true;
 var basePath = "";
@@ -73,25 +78,65 @@ $(document).ready(function () {
     document.addEventListener("keydown", function keyDownTextField(e) {
         var keyCode = e.keyCode;
         if (keysEnabled) {
-            if (keyCode == 37 || keyCode == 74) {
+            if (keyCode == 37) {//keyCode == 74 || 
                 bad();
             }
-            if (keyCode == 39 || keyCode == 75) {
+            if (keyCode == 39) { //keyCode == 75 || 
                 good()
             }
         }
     }, false);
 
+    $('#photoName').focusin(() => {
+        keysEnabled = false;
+    })
+
+    $('#photoName').focusout(() => {
+        keysEnabled = true;
+    })
+
+    $('#photoName').keypress(function (e) {
+        if (e.which == 13) {
+            $(this).blur();
+        }
+    });
+
+    function rename(oldPath, newPath, callback) {
+        if (oldPath != newPath) {
+            fs.rename(oldPath, newPath, function (err) {
+                if (err) console.log('ERROR: ' + err);
+                currentImg = $('#photoName').val();
+                callback();
+                return;
+            });
+        }
+        else {
+            callback()
+
+        }
+
+    }
+
     function bad() {
         keysEnabled = false;
-        moveImageLeft()
-        invokeMoveToFolder('bad/')
+        moveImageLeft();
+        rename((basePath + currentImg), (basePath + $('#photoName').val()), () => {
+
+
+            invokeMoveToFolder('bad/');
+        });
+
     }
 
     function good() {
         keysEnabled = false;
-        moveImageRight()
-        invokeMoveToFolder('good/')
+        moveImageRight();
+
+        rename((basePath + currentImg), (basePath + $('#photoName').val()), () => {
+
+            invokeMoveToFolder('good/');
+        });
+
     }
 
     function updateTotalCount() {
@@ -142,8 +187,10 @@ $(document).ready(function () {
     }
 
     function loadInImage(image) {
+        $('#photoName').val("");
+
         if (imageFiles.length < 1) {
-            $(".loadInImage").attr('src', "").fadeTo(300, 1)
+            $(".loadInImage").attr('src', "").fadeTo(300, 1);
             alert('End of pics!');
             return;
         }
@@ -153,7 +200,7 @@ $(document).ready(function () {
         currentImg = image;
         $(".loadInImage").fadeTo(1, 0)
         $(".loadInImage").attr('src', basePath + image).fadeTo(300, 1)
-        $("#photoName").text(currentImg);
+        $("#photoName").val(currentImg);
     }
 
     function getRandomImage() {
@@ -221,13 +268,13 @@ $(document).ready(function () {
 
         holder.ondragover = () => {
             $('#drag-file').css('opacity', '0.5');
-            
+
             return false;
         };
 
         holder.ondragleave = () => {
             $('#drag-file').css('opacity', '0');
-            
+
 
             return false;
         };
@@ -235,7 +282,7 @@ $(document).ready(function () {
         holder.ondragend = () => {
 
             $('#drag-file').css('opacity', '0');
-            
+
 
             return false;
         };
@@ -266,6 +313,8 @@ $(document).ready(function () {
             loadDirectory(dialogResponse[0] + "\\")
         }
     }
+
+
 
     init();
 });

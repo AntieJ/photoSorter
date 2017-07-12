@@ -7,37 +7,51 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+const Settings = require('./settings.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 
-// const template = [
-//   {
-//     label: 'Edit',
-//     submenu: [
-//       {role: 'undo'},
-//       {label: 'reset'},
-//     ]
-//   },
-//   {
-//     role: 'help',
-//     submenu: [
-//       {
-//         label: 'Learn More',
-//         click () { require('electron').shell.openExternal('https://electron.atom.io') }
-//       }
-//     ]
-//   }
-// ]
+const settings = new Settings({
+  // We'll call our data file 'user-preferences'
+  configName: 'user-preferences',
+  defaults: {
+    // 800x600 is the default size of our window
+    ajtest: "stuff"
+  }
+});
 
-// const menu = Menu.buildFromTemplate(template)
-// Menu.setApplicationMenu(menu)
+const template = [
+  {
+    label: 'Edit',
+    submenu: [
+      { role: 'undo' },
+      { role: 'redo' },
+      {
+        label: 'Settings ',
+        click() { openSettings() }
+      }
+    ]
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: 'Learn More',
+        click() { require('electron').shell.openExternal('https://electron.atom.io') }
+      }
+    ]
+  }
+]
 
-function createWindow () {
+function createWindow() {
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
+
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({ width: 800, height: 600 })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -47,7 +61,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-   mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -56,6 +70,9 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+
+
 }
 
 // This method will be called when Electron has finished
@@ -80,5 +97,11 @@ app.on('activate', function () {
   }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+function openSettings() {
+  mainWindow.webContents.executeJavaScript('openSettingsModal()', true);
+
+  // let ajtest = settings.get('ajtest');
+  // settings.set('ajtest', "MAGIC");
+
+  
+}

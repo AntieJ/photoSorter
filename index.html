@@ -5,74 +5,78 @@
   <meta charset="UTF-8">
   <title>Photo Sorter</title>
 
-
-  <!-- ELECTRON SCRIPT LOADING WIERDNESS-->
-  <script>
-    if (typeof module === 'object') { window.module = module; module = undefined; }
-  </script>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-  <script type="text/javascript" src="./app.js"></script>
-
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-    crossorigin="anonymous">
-
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-    crossorigin="anonymous">
-
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-    crossorigin="anonymous"></script>
-
-  <!-- Insert this line after script imports -->
-  <script>
-    if (window.module) module = window.module;
-  </script>
-
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" href="content/css/theme/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="content/css/bootstrap-theme.min.css"> -->
+  <link rel="stylesheet" type="text/css" href="content/css/styles.css">
 
 </head>
 
 <body>
 
-<div id="drag-file">
+  <div id="drag-file">
     <p>Drag your files here</p>
-</div>
-
-  <div class="row padTop">
-    <div class="col-md-1 medSize">
-      <span id="badCount"></span>
-      <span id="badTitle">Bad</span>
-    </div>
-    <div class="col-md-10">
-      <div class="parent">
-        <input id="photoName"></input>
-        <p id="dirName"></p>
-
-        <span id="itemsRemaining" class="medSize"></span><span> out of </span><span id="itemCount" class="medSize"></span>
-
-        <div id="animate">
-          <img id="animatedImage" class="image" />
-        </div>
-        <img class="loadInImage image" />
+  </div>
+  
+  <div class=container-fluid>
+    <div class="row padTop">
+      <div class="col-md-1 col-xs-1 medSize">
+        <span id="badCount"></span>
+        <span id="badTitle">Bad</span>
       </div>
+      <div class="col-md-10 col-xs-10 ">
+        <div class="parent">
+          <input id="photoName"></input>
+          <p id="dirName"></p>
+
+          <span id="itemsRemaining" class="medSize"></span><span> out of </span><span id="itemCount" class="medSize"></span>
+
+          <div id="animate">
+            <img id="animatedImage" class="image" />
+          </div>
+          <img class="loadInImage image" />
+        </div>
+      </div>
+      <div class="col-md-1 col-xs-1 medSize">
+        <span id="goodCount"></span>
+        <span id="goodTitle">Good</span>
+      </div>
+
     </div>
-    <div class="col-md-1 medSize">
-      <span id="goodCount"></span>
-      <span id="goodTitle">Good</span>
-    </div>
-    
   </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Settings</h4>
+      </div>
+      <div class="modal-body">
+        File types, background colours
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 </body>
+
+<!-- ELECTRON SCRIPT LOADING WIERDNESS-->
 <script>
-  // You can also require other files to run in this process
-   // require('./renderer.js')
+  if (typeof module === 'object') { window.module = module; module = undefined; }
+
+</script>
+<script src="content/js/jquery-3.2.1.min.js"></script>
+<script src="content/js/bootstrap.min.js"></script>
+<script src="./app.js"></script> 
+<!-- only way to access appjs methods as public (From main process) -->
+<script>
+  if (window.module) module = window.module;
+  // require('./app.js')
 
 </script>
 

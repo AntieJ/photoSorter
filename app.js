@@ -1,9 +1,4 @@
 /*
-todo:
-settings for: filetypes, background colors
-load scripts from local rather than cdn
-settings
-theme?
 icon
 down for maybe?
 */
@@ -342,6 +337,7 @@ $(document).ready(function () {
 
         const menu = new Menu()
         menu.append(new MenuItem({ label: 'Reset', click() { resetDirectories() } }))
+        menu.append(new MenuItem({ label: 'Settings', click() { openSettingsModal() } }))
 
         window.addEventListener('contextmenu', (e) => {
             e.preventDefault()
@@ -349,5 +345,10 @@ $(document).ready(function () {
         }, false)
     }
 
+
     init();
 });
+
+function openSettingsModal() {
+    $('#myModal').modal();
+}

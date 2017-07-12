@@ -16,13 +16,14 @@ padding-top: 15px;
 
 #animate {
   width: 100%;
-  -webkit-transition: left 0.5s ease;
-  -moz-transition: left 0.5s ease;
-  -o-transition: left 0.5s ease;
-  -ms-transition: left 0.5s ease;
-  transition: left 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease;
   position: absolute;
   left: 0;  
+  top:80px;
 }
 
 #animate.left {
@@ -31,6 +32,10 @@ padding-top: 15px;
 
 #animate.right {
   left: 1000px;
+}
+
+#animate.down {
+  top: 1000px;
 }
 
 .image{

@@ -1,6 +1,7 @@
 /*
 icon
 down for maybe?
+package it up
 */
 
 var fs = require('fs');
@@ -12,8 +13,10 @@ var keysEnabled = true;
 var basePath = "";
 var currentImg = "";
 var fileExtensions = [".jpg", ".jpeg", ".png"];
-var goodDirName = 'good'
-var badDirName = 'bad'
+var goodDirName = 'good';
+var badDirName = 'bad';
+var undecidedDirName = 'maybe';
+
 var goodCounter = 0;
 var badCounter = 0;
 
@@ -70,12 +73,16 @@ $(document).ready(function () {
 
     document.addEventListener("keydown", function keyDownTextField(e) {
         var keyCode = e.keyCode;
+        
         if (keysEnabled) {
             if (keyCode == 37) {//keyCode == 74 || 
                 bad();
             }
             if (keyCode == 39) { //keyCode == 75 || 
-                good()
+                good();
+            }
+            if (keyCode == 40) {
+                undecided();
             }
         }
     }, false);
@@ -125,7 +132,15 @@ $(document).ready(function () {
         rename((basePath + currentImg), (basePath + $('#photoName').val()), () => {
             invokeMoveToFolder(goodDirName + '/');
         });
+    }
 
+    function undecided() {
+        keysEnabled = false;
+        moveImageDown();
+
+        rename((basePath + currentImg), (basePath + $('#photoName').val()), () => {
+            invokeMoveToFolder(undecidedDirName + '/');
+        });
     }
 
     function updateTotalCount() {
@@ -157,6 +172,11 @@ $(document).ready(function () {
         $("#animate").addClass("left");
     }
 
+    function moveImageDown() {
+        setLoadInToAnimatable()
+        $("#animate").addClass("down");
+    }
+
     function setLoadInToAnimatable() {
         $(".loadInImage").attr('src', "");
         setAnimatableImage(currentImg)
@@ -164,7 +184,7 @@ $(document).ready(function () {
 
     function resetImgPositions() {
         $("#animatedImage").attr('src', "");
-        $("#animate").removeClass("right left");
+        $("#animate").removeClass("right left down");
     }
 
     function setAnimatableImage(image) {
@@ -207,12 +227,16 @@ $(document).ready(function () {
     }
 
     function setupNewDirectories() {
-        if (!fs.existsSync(basePath + "good")) {
-            fs.mkdirSync(basePath + "good");
+        if (!fs.existsSync(basePath + badDirName)) {
+            fs.mkdirSync(basePath + badDirName);
         }
 
-        if (!fs.existsSync(basePath + "bad")) {
-            fs.mkdirSync(basePath + "bad");
+        if (!fs.existsSync(basePath + badDirName)) {
+            fs.mkdirSync(basePath + badDirName);
+        }
+
+        if (!fs.existsSync(basePath + undecidedDirName)) {
+            fs.mkdirSync(basePath + undecidedDirName);
         }
     }
 
@@ -258,22 +282,16 @@ $(document).ready(function () {
 
         holder.ondragover = () => {
             $('#drag-file').css('opacity', '0.5');
-
             return false;
         };
 
         holder.ondragleave = () => {
             $('#drag-file').css('opacity', '0');
-
-
             return false;
         };
 
         holder.ondragend = () => {
-
             $('#drag-file').css('opacity', '0');
-
-
             return false;
         };
 
@@ -327,7 +345,17 @@ $(document).ready(function () {
                     });
                 });
                 loadDirectory(basePath);
+            });
+        }
 
+        if (fs.existsSync(basePath + undecidedDirName)) {
+            fs.readdir(basePath + undecidedDirName, (err, files) => {
+                files.forEach(file => {
+                    fs.rename(basePath + undecidedDirName + '/' + file, basePath + '/' + file, function (err) {
+                        if (err) console.log('ERROR: ' + err);
+                    });
+                });
+                loadDirectory(basePath);
             });
         }
 

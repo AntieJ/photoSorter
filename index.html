@@ -16,7 +16,7 @@
   <div id="drag-file">
     <p>Drag your files here</p>
   </div>
-  
+
   <div class=container-fluid>
     <div class="row padTop">
       <div class="col-md-1 col-xs-1 medSize">
@@ -29,7 +29,7 @@
           <p id="dirName"></p>
 
           <span id="itemsRemaining" class="medSize"></span><span> out of </span><span id="itemCount" class="medSize"></span>
-
+          <p><span id="undecidedCount">0</span> Maybe</p>
           <div id="animate">
             <img id="animatedImage" class="image" />
           </div>
@@ -44,23 +44,23 @@
     </div>
   </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Settings</h4>
-      </div>
-      <div class="modal-body">
-        File types, background colours
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Settings</h4>
+        </div>
+        <div class="modal-body">
+          File types, background colours
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
 </body>
@@ -72,7 +72,7 @@
 </script>
 <script src="content/js/jquery-3.2.1.min.js"></script>
 <script src="content/js/bootstrap.min.js"></script>
-<script src="./app.js"></script> 
+<script src="./app.js"></script>
 <!-- only way to access appjs methods as public (From main process) -->
 <script>
   if (window.module) module = window.module;

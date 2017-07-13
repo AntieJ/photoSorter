@@ -1,6 +1,5 @@
 /*
 icon
-down for maybe?
 package it up
 */
 
@@ -19,6 +18,7 @@ var undecidedDirName = 'maybe';
 
 var goodCounter = 0;
 var badCounter = 0;
+var undecidedCounter = 0;
 
 $(document).ready(function () {
     function readFiles(callback) {
@@ -60,6 +60,22 @@ $(document).ready(function () {
                         }
                     });
                     $('#badCount').text(badCounter);
+                    updateTotalCount();
+
+                });
+            }
+
+            undecidedCounter = 0;
+
+            if (fs.existsSync(basePath + undecidedDirName)) {
+                fs.readdir(basePath + undecidedDirName, (err, files) => {
+                    files.forEach(file => {
+                        //if file extension in list
+                        if ($.inArray(path.extname(file), fileExtensions) > -1) {
+                            undecidedCounter++;
+                        }
+                    });
+                    $('#undecidedCount').text(undecidedCounter);
                     updateTotalCount();
 
                 });
@@ -144,7 +160,7 @@ $(document).ready(function () {
     }
 
     function updateTotalCount() {
-        var totalCount = imageFiles.length + goodCounter + badCounter;
+        var totalCount = imageFiles.length + goodCounter + badCounter+undecidedCounter;
         $('#itemCount').text(totalCount);
         $('#itemsRemaining').text(imageFiles.length);
     }
